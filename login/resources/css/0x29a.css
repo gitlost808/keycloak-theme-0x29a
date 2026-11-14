@@ -9,7 +9,7 @@
   font-family: "Kode Mono";
   font-style: normal;
   font-weight: 400;
-  src: url("../fonts/KodeMono-Regular.ttf") format("truetype");
+  src: url("../fonts/KodeMono-Regular.ttf?v=0ebfabbe75") format("truetype");
   font-display: swap;
 }
 
@@ -162,6 +162,29 @@ html.login-pf,
 .pf-v5-c-login__main-header {
   border-top: 0;
   padding-top: 1.5rem;
+}
+
+/* PatternFly's 2rem inner padding leaves narrow phones little room for the
+   remember-me and forgot-password row, which then wraps word by word. */
+@media (max-width: 480px) {
+  .pf-v5-c-login__main {
+    --pf-v5-c-login__main-header--PaddingRight: 1.25rem;
+    --pf-v5-c-login__main-header--PaddingLeft: 1.25rem;
+    --pf-v5-c-login__main-body--PaddingRight: 1.25rem;
+    --pf-v5-c-login__main-body--PaddingLeft: 1.25rem;
+  }
+}
+
+/* Where that row still does not fit, put "forgot password?" on its own line
+   instead of breaking both phrases. */
+.pf-v5-c-helper-text.pf-v5-u-justify-content-space-between {
+  column-gap: 1rem;
+  flex-wrap: wrap;
+  row-gap: 0.25rem;
+}
+
+.pf-v5-c-helper-text.pf-v5-u-justify-content-space-between > * {
+  white-space: nowrap;
 }
 
 .pf-v5-c-login__main-header,
@@ -565,15 +588,18 @@ hr,
   }
 }
 
+/* dummypage's glow animates from a lighter green to the text colour. Typed
+   text here is not always green (error messages are red), so brighten and
+   glow in the letter's own colour instead of setting one. */
 @keyframes x29a-glow {
   0% {
-    color: var(--x29a-text-light);
-    text-shadow: 0 0 calc(var(--x29a-shadow) * 2) var(--x29a-text);
+    filter: brightness(1.35);
+    text-shadow: 0 0 calc(var(--x29a-shadow) * 2) currentcolor;
   }
 
   100% {
-    color: var(--x29a-text);
-    text-shadow: 0 0 var(--x29a-shadow) var(--x29a-text);
+    filter: brightness(1);
+    text-shadow: 0 0 var(--x29a-shadow) currentcolor;
   }
 }
 
