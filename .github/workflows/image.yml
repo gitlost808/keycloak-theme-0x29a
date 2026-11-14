@@ -1,0 +1,39 @@
+name: Test and publish themed Keycloak
+on:
+  pull_request:
+  push:
+permissions:
+  contents: read
+jobs:
+  image:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      packages: write
+    env:
+      IMAGE: ghcr.io/gitlost808/keycloak-theme-0x29a:sha-${{ github.sha }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+      - run: make test
+      - name: Build image using the pinned upstream Keycloak
+        run: docker build --label "org.opencontainers.image.revision=$GITHUB_SHA" --tag "$IMAGE" .
+      - name: Verify theme bytes and Keycloak entrypoint
+        run: python3 scripts/check-image.py "$IMAGE"
+      - name: Log in to GitHub Container Registry
+        if: github.event_name == 'push'
+        uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish the verified candidate image
+        if: github.event_name == 'push'
+        run: |
+          docker push "$IMAGE"
+          docker inspect "$IMAGE" --format '{{json .RepoDigests}}'
