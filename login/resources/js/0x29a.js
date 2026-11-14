@@ -50,11 +50,27 @@
     const typed = document.createElement("span");
     typed.className = "x29a-typed";
     typed.setAttribute("aria-hidden", "true");
+    // Each word's letters sit in an unbreakable .x29a-word, so lines break
+    // only at spaces, as in the finished text. Otherwise a browser may break
+    // a word between its typed and untyped letters (Firefox on Android did),
+    // and the word jumps to the next line once it is typed too far.
+    let word = null;
     const letters = Array.from(prefix + text, (letter, index) => {
       const span = document.createElement("span");
+      span.className = "x29a-letter";
       span.textContent = letter;
       if (index < prefix.length) span.classList.add("x29a-prefix");
-      typed.append(span);
+      if (/\s/.test(letter)) {
+        word = null;
+        typed.append(span);
+      } else {
+        if (!word) {
+          word = document.createElement("span");
+          word.className = "x29a-word";
+          typed.append(word);
+        }
+        word.append(span);
+      }
       return span;
     });
 

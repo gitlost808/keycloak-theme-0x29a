@@ -209,7 +209,7 @@ html.login-pf,
   content: none;
 }
 
-#kc-page-title .x29a-typed > .x29a-prefix.show {
+#kc-page-title .x29a-letter.x29a-prefix.show {
   opacity: 0.75;
 }
 
@@ -506,26 +506,31 @@ hr,
 
 /* ---- Typed text (js/0x29a.js) ---- */
 
-.x29a-typed > span {
+/* A word never breaks across lines while it is typed; see prepare(). */
+.x29a-word {
+  white-space: nowrap;
+}
+
+.x29a-letter {
   opacity: 0;
 }
 
-.x29a-typed > span.show {
+.x29a-letter.show {
   opacity: 1;
 }
 
-.x29a-typed > span.glow {
+.x29a-letter.glow {
   animation: x29a-glow var(--x29a-anim-time) forwards;
 }
 
 /* The typing cursor hides the letter it sits on and draws "|" in its place,
    without taking up room, so the text never reflows while it is typed. */
-.x29a-typed > span.x29a-cursor {
+.x29a-letter.x29a-cursor {
   position: relative;
   visibility: hidden;
 }
 
-.x29a-typed > span.x29a-cursor::after {
+.x29a-letter.x29a-cursor::after {
   content: "|";
   left: 0;
   position: absolute;
@@ -555,7 +560,7 @@ hr,
   opacity: 1;
 }
 
-.x29a-skipped .x29a-typed > span {
+.x29a-skipped .x29a-letter {
   opacity: 1;
 }
 
