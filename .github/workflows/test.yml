@@ -1,0 +1,22 @@
+name: Test and package theme
+on:
+  pull_request:
+  push:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+      - run: make test
+      - name: Build a reproducible release
+        run: |
+          mkdir "$RUNNER_TEMP/theme-a" "$RUNNER_TEMP/theme-b"
+          make package OUTPUT="$RUNNER_TEMP/theme-a"
+          make package OUTPUT="$RUNNER_TEMP/theme-b"
+          cmp "$RUNNER_TEMP/theme-a/theme.tar.gz" "$RUNNER_TEMP/theme-b/theme.tar.gz"
+          cmp "$RUNNER_TEMP/theme-a/theme-release.json" "$RUNNER_TEMP/theme-b/theme-release.json"
