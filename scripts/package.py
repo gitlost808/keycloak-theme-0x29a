@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Produce a deterministic static theme archive and its release manifest."""
 import argparse
-import gzip
 import hashlib
 import io
 import json
@@ -15,7 +14,7 @@ REPOSITORY = "gitlost808/keycloak-theme-0x29a"
 
 
 def package(source, output, revision, metadata):
-    """Package regular files only; metadata and compression are reproducible."""
+    """Package regular files only with fixed, reproducible GNU tar metadata."""
     if not re.fullmatch(r"[0-9a-f]{40}", revision):
         raise ValueError("A complete source commit SHA is required")
     paths = sorted(source.rglob("*"))
@@ -35,14 +34,13 @@ def package(source, output, revision, metadata):
             entry.mode = 0o644
             entry.uid = entry.gid = entry.mtime = 0
             archive.addfile(entry, io.BytesIO(data))
-    compressed = io.BytesIO()
-    with gzip.GzipFile(fileobj=compressed, mode="wb", filename="", mtime=0) as stream:
-        stream.write(tar_bytes.getvalue())
-    artifact = compressed.getvalue()
+    # Plain GNU tar has no platform/library-sensitive compression layer.
+    # Git compresses the vendored dependency in the consuming repository.
+    artifact = tar_bytes.getvalue()
     manifest = {**metadata, "source_repository": REPOSITORY, "source_revision": revision,
                 "archive_sha256": hashlib.sha256(artifact).hexdigest(), "files": files}
     output.mkdir(parents=True, exist_ok=True)
-    (output / "theme.tar.gz").write_bytes(artifact)
+    (output / "theme.tar").write_bytes(artifact)
     (output / "theme-release.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
     return manifest
 

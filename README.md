@@ -34,10 +34,12 @@ which compatibility was reviewed.
 ## Release contract
 
 Commit first, then run `make package OUTPUT=/absolute/empty/staging`. A release
-is `theme.tar.gz` plus `theme-release.json`, recording the full source commit,
+is `theme.tar` plus `theme-release.json`, recording the full source commit,
 exact tested Keycloak image, archive SHA-256, and SHA-256 of every file. The
 archive contains only regular files under `0x29a/`; timestamps, owners, modes,
-and gzip headers are fixed so repeated builds produce identical bytes.
+and tar headers are fixed so repeated builds produce identical bytes. The bundle
+uses plain GNU tar to avoid differences between compression-library versions;
+Git compresses it when storing and transferring the vendored dependency.
 
 The infra repository vendors this release dependency and pins its manifest.
 Its release helper imports the two files from a pristine source checkout;

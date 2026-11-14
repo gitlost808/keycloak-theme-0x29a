@@ -18,12 +18,12 @@ class PackagingTests(unittest.TestCase):
             a, b = Path(scratch) / "a", Path(scratch) / "b"
             release = builder.package(ROOT / "theme/0x29a", a, "1" * 40, metadata)
             builder.package(ROOT / "theme/0x29a", b, "1" * 40, metadata)
-            self.assertEqual((a / "theme.tar.gz").read_bytes(), (b / "theme.tar.gz").read_bytes())
+            self.assertEqual((a / "theme.tar").read_bytes(), (b / "theme.tar").read_bytes())
             self.assertEqual((a / "theme-release.json").read_bytes(), (b / "theme-release.json").read_bytes())
             expected = {"0x29a/" + p.relative_to(ROOT / "theme/0x29a").as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
                         for p in (ROOT / "theme/0x29a").rglob("*") if p.is_file()}
             self.assertEqual(release["files"], expected)
-            self.assertEqual(release["archive_sha256"], hashlib.sha256((a / "theme.tar.gz").read_bytes()).hexdigest())
+            self.assertEqual(release["archive_sha256"], hashlib.sha256((a / "theme.tar").read_bytes()).hexdigest())
 
     def test_symlinks_cannot_become_release_assets(self):
         with tempfile.TemporaryDirectory() as scratch:

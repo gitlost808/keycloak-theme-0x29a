@@ -18,5 +18,5 @@ jobs:
           mkdir "$RUNNER_TEMP/theme-a" "$RUNNER_TEMP/theme-b"
           make package OUTPUT="$RUNNER_TEMP/theme-a"
           make package OUTPUT="$RUNNER_TEMP/theme-b"
-          cmp "$RUNNER_TEMP/theme-a/theme.tar.gz" "$RUNNER_TEMP/theme-b/theme.tar.gz"
+          cmp "$RUNNER_TEMP/theme-a/theme.tar" "$RUNNER_TEMP/theme-b/theme.tar"
           cmp "$RUNNER_TEMP/theme-a/theme-release.json" "$RUNNER_TEMP/theme-b/theme-release.json"
