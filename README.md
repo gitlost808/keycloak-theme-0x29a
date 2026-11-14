@@ -15,43 +15,45 @@ report the SHA-256 prefix required in each stylesheet/script/font URL after
 an edit. Keep both stylesheets' shared font and colour tokens coordinated with
 the dummypage site's `src/common/styles`.
 
-Use the exact image in `theme.json` for a local preview:
+Build the image with `make test-image`, then preview it locally:
 
 ```sh
 docker run --rm -p 127.0.0.1:18080:8080 \
   -e KC_BOOTSTRAP_ADMIN_USERNAME=admin -e KC_BOOTSTRAP_ADMIN_PASSWORD=admin \
-  -v "$PWD/theme/0x29a:/opt/keycloak/themes/0x29a:ro" \
-  <tested_keycloak_image from theme.json> start-dev
+  keycloak-theme-0x29a:local start-dev
 ```
 
 Create a throwaway realm at http://127.0.0.1:18080/admin/ and select `0x29a`
 for its login and account themes. Development mode disables theme caching.
 Check login, password reset, narrow screens, reduced motion, and the Account
 Console when changing CSS or upgrading Keycloak; this theme styles upstream
-markup and PatternFly selectors. `theme.json` records the exact image against
-which compatibility was reviewed.
+markup and PatternFly selectors. The Dockerfile pins the exact upstream image
+against which compatibility is reviewed. For live editing, add
+`-v "$PWD/theme/0x29a:/opt/keycloak/themes/0x29a:ro"` before the image name.
 
-## Release contract
+## Build and release
 
-Commit first, then run `make package OUTPUT=/absolute/empty/staging`. A release
-is `theme.tar` plus `theme-release.json`, recording the full source commit,
-exact tested Keycloak image, archive SHA-256, and SHA-256 of every file. The
-archive contains only regular files under `0x29a/`; timestamps, owners, modes,
-and tar headers are fixed so repeated builds produce identical bytes. The bundle
-uses plain GNU tar to avoid differences between compression-library versions;
-Git compresses it when storing and transferring the vendored dependency.
+The Dockerfile extends an immutable upstream Keycloak image and copies this
+repository's theme into `/opt/keycloak/themes/0x29a`. It preserves the upstream
+entrypoint, user, server behavior, and configuration contract. It adds no
+runtime installer or theme bind mount.
 
-The infra repository vendors this release dependency and pins its manifest.
-Its release helper imports the two files from a pristine source checkout;
-CI rebuilds the exact source commit and compares the bytes. Deployment verifies
-the manifest, archive members, file hashes, and Keycloak compatibility before
-installing static data. No source scripts execute on the managed host, and no
-publisher account, new service, or runtime network fetch is required.
+`make test-image` builds the image, compares every installed theme file with
+its source, and runs the Keycloak version command. CI runs these checks on
+pushes and pull requests. Successful pushes publish a candidate image at
+`ghcr.io/gitlost808/keycloak-theme-0x29a:sha-<full-commit>`; pull requests only
+build and verify. Images are linked to this source repository through OCI
+source/revision labels. The package must be public for unauthenticated host
+pulls.
 
-Production realm settings, secrets, Compose configuration, and version
-selection remain in infra. Pushing here does not deploy the theme. Theme
-changes recreate Keycloak through infra's configuration hash to clear its
-production cache; hashed asset URLs separately handle browser caches.
+Infra selects a reviewed image by immutable digest in its Compose definition.
+A source push never changes the production image pin. An image bump recreates
+Keycloak and clears its server-side theme cache; content-versioned asset URLs
+handle browser caches. Keycloak upgrades start by updating the upstream image
+pin here and checking login and Account Console compatibility.
+
+Production realm settings, secrets, runtime flags, database volumes, and
+routing stay in infra. No theme archive is committed there.
 
 ## Provenance
 
