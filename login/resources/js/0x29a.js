@@ -8,7 +8,6 @@
 (() => {
   "use strict";
 
-  const CURSOR = "|";
   const TYPE_TIME = 0x29a; // ms to type one whole text, as on the main page
   const ROW_STAGGER = 0x29a / 4; // ms between two rows starting to appear
 
@@ -54,7 +53,6 @@
     const letters = Array.from(prefix + text, (letter, index) => {
       const span = document.createElement("span");
       span.textContent = letter;
-      span.dataset.letter = letter;
       if (index < prefix.length) span.classList.add("x29a-prefix");
       typed.append(span);
       return span;
@@ -64,18 +62,21 @@
     return letters;
   }
 
+  // The cursor is drawn over the letter it sits on (.x29a-cursor in
+  // 0x29a.css) rather than replacing it: a "|" in the text is a line-break
+  // opportunity, so on narrow screens a word being typed would split across
+  // lines and then jump down whole once the cursor had left it.
   async function type(letters) {
     const timeout = TYPE_TIME / letters.length;
     for (const span of letters) {
       if (skipped) break;
-      span.textContent = CURSOR;
-      span.classList.add("glow", "show");
+      span.classList.add("x29a-cursor", "glow", "show");
       await sleep(timeout);
-      span.textContent = span.dataset.letter;
+      span.classList.remove("x29a-cursor");
     }
     // A skip ends the loop early: show the rest at once.
     letters.forEach((span) => {
-      span.textContent = span.dataset.letter;
+      span.classList.remove("x29a-cursor");
       span.classList.add("show");
     });
   }

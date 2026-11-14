@@ -495,6 +495,21 @@ hr,
   animation: x29a-glow var(--x29a-anim-time) forwards;
 }
 
+/* The typing cursor hides the letter it sits on and draws "|" in its place,
+   without taking up room, so the text never reflows while it is typed. */
+.x29a-typed > span.x29a-cursor {
+  position: relative;
+  visibility: hidden;
+}
+
+.x29a-typed > span.x29a-cursor::after {
+  content: "|";
+  left: 0;
+  position: absolute;
+  top: 0;
+  visibility: visible;
+}
+
 /* ---- The box's rows (js/0x29a.js) ----
    With the script running, it reveals the box's content row by row after
    typing the title, instead of the plain fade above. */
