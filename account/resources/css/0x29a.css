@@ -1,0 +1,343 @@
+/*
+ * 0x29a Account Console theme. The font face and :root tokens are the same
+ * as in the login theme's css/0x29a.css; keep the two in step.
+ */
+
+@font-face {
+  /* Kode Mono, SIL Open Font License 1.1; see themes/0x29a/OFL.txt. */
+  font-family: "Kode Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/KodeMono-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+
+  /* dummypage variables.scss */
+  --x29a-font: "Kode Mono", monospace;
+  --x29a-text: #859900;
+  --x29a-text-light: #9fb31a; /* color.scale(#859900, $lightness: 16%) */
+  --x29a-text-lighter: #c5dc3c; /* ... $lightness: 48% (the :active state) */
+  --x29a-text-dim: rgb(133 153 0 / 75%);
+  --x29a-background: #060606;
+  --x29a-selection: #666;
+  --x29a-blur: 5px;
+  --x29a-shadow: 5px;
+  --x29a-anim-time: 0.666s;
+  --x29a-radius: 15px;
+  --x29a-border: 3px;
+
+  /* Solarized accents; #859900 is Solarized green. */
+  --x29a-red: #dc322f;
+  --x29a-yellow: #b58900;
+  --x29a-blue: #268bd2;
+
+  /* PatternFly 5 global tokens. :root outranks PatternFly's
+     :where(.pf-v5-theme-dark), so these hold in its dark theme. */
+  --pf-v5-global--FontFamily--text: var(--x29a-font);
+  --pf-v5-global--FontFamily--text--vf: var(--x29a-font);
+  --pf-v5-global--FontFamily--heading: var(--x29a-font);
+  --pf-v5-global--FontFamily--heading--vf: var(--x29a-font);
+  --pf-v5-global--FontFamily--monospace: var(--x29a-font);
+  --pf-v5-global--FontFamily--monospace--vf: var(--x29a-font);
+  --pf-v5-global--FontWeight--bold: 400;
+
+  --pf-v5-global--BackgroundColor--100: var(--x29a-background);
+  --pf-v5-global--BackgroundColor--150: var(--x29a-background);
+  --pf-v5-global--BackgroundColor--200: var(--x29a-background);
+  --pf-v5-global--BackgroundColor--300: #10120a;
+  --pf-v5-global--BackgroundColor--400: #10120a;
+  --pf-v5-global--BackgroundColor--dark-100: var(--x29a-background);
+  --pf-v5-global--BackgroundColor--light-100: var(--x29a-background);
+
+  --pf-v5-global--Color--100: var(--x29a-text);
+  --pf-v5-global--Color--200: var(--x29a-text-dim);
+  --pf-v5-global--Color--dark-100: var(--x29a-text);
+  --pf-v5-global--Color--dark-200: var(--x29a-text-dim);
+  --pf-v5-global--Color--light-100: var(--x29a-text);
+  --pf-v5-global--Color--light-200: var(--x29a-text-dim);
+  --pf-v5-global--icon--Color--light: var(--x29a-text-dim);
+  --pf-v5-global--icon--Color--dark: var(--x29a-text);
+
+  --pf-v5-global--BorderColor--100: var(--x29a-text-dim);
+  --pf-v5-global--BorderColor--200: var(--x29a-text-dim);
+  --pf-v5-global--BorderColor--300: var(--x29a-text-dim);
+  --pf-v5-global--BorderColor--400: var(--x29a-text);
+
+  --pf-v5-global--primary-color--100: var(--x29a-text);
+  --pf-v5-global--primary-color--200: var(--x29a-text-light);
+  --pf-v5-global--primary-color--dark-100: var(--x29a-text);
+  --pf-v5-global--primary-color--light-100: var(--x29a-text);
+  --pf-v5-global--primary-color--300: var(--x29a-text);
+  --pf-v5-global--active-color--100: var(--x29a-text);
+  --pf-v5-global--active-color--300: var(--x29a-text);
+  --pf-v5-global--active-color--400: var(--x29a-text);
+  --pf-v5-global--link--Color: var(--x29a-text);
+  --pf-v5-global--link--Color--hover: var(--x29a-text-light);
+  --pf-v5-global--link--Color--visited: var(--x29a-text);
+  --pf-v5-global--link--Color--dark: var(--x29a-text);
+  --pf-v5-global--link--Color--dark--hover: var(--x29a-text-light);
+  --pf-v5-global--link--Color--light: var(--x29a-text);
+  --pf-v5-global--link--Color--light--hover: var(--x29a-text-light);
+  --pf-v5-global--link--TextDecoration--hover: none;
+
+  --pf-v5-global--success-color--100: var(--x29a-text);
+  --pf-v5-global--success-color--200: var(--x29a-text-light);
+  --pf-v5-global--danger-color--100: var(--x29a-red);
+  --pf-v5-global--danger-color--200: var(--x29a-red);
+  --pf-v5-global--warning-color--100: var(--x29a-yellow);
+  --pf-v5-global--warning-color--200: var(--x29a-yellow);
+  --pf-v5-global--info-color--100: var(--x29a-blue);
+  --pf-v5-global--info-color--200: var(--x29a-blue);
+  --pf-v5-global--disabled-color--100: rgb(133 153 0 / 45%);
+  --pf-v5-global--disabled-color--200: rgb(133 153 0 / 20%);
+
+  --pf-v5-global--BorderRadius--sm: 8px;
+}
+
+::selection {
+  background: var(--x29a-selection);
+}
+
+body {
+  background: var(--x29a-background);
+  color: var(--x29a-text);
+  font-family: var(--x29a-font);
+}
+
+/* ---- Masthead: the main page's wordmark instead of Keycloak's logo ---- */
+
+.pf-v5-c-masthead {
+  --pf-v5-c-masthead--BackgroundColor: var(--x29a-background);
+
+  background-color: var(--x29a-background);
+  border-bottom: var(--x29a-border) solid var(--x29a-text);
+  box-shadow: 0 0 var(--x29a-shadow) var(--x29a-text);
+}
+
+.pf-v5-c-masthead .pf-v5-c-toolbar {
+  --pf-v5-c-toolbar--BackgroundColor: transparent;
+}
+
+.pf-v5-c-masthead .pf-v5-c-menu-toggle {
+  --pf-v5-c-menu-toggle--before--BorderColor: var(--x29a-text-dim);
+
+  border-radius: var(--pf-v5-global--BorderRadius--sm);
+}
+
+.pf-v5-c-masthead .pf-v5-c-menu-toggle::before {
+  border-radius: inherit;
+}
+
+.pf-v5-c-masthead__brand img {
+  display: none;
+}
+
+.pf-v5-c-masthead__brand::before {
+  color: var(--x29a-text);
+  content: "0x29a.me";
+  font-size: 1.75rem;
+  line-height: 1;
+  text-shadow: 0 0 var(--x29a-shadow) var(--x29a-text);
+}
+
+.pf-v5-c-masthead__brand:hover::before {
+  color: var(--x29a-text-light);
+}
+
+/* ---- Navigation ---- */
+
+.pf-v5-c-page__sidebar {
+  --pf-v5-c-page__sidebar--BackgroundColor: var(--x29a-background);
+
+  border-right: 1px solid var(--x29a-text-dim);
+}
+
+.pf-v5-c-nav {
+  --pf-v5-c-nav__link--m-current--after--BorderColor: var(--x29a-text);
+  --pf-v5-c-nav__link--hover--after--BorderColor: var(--x29a-text-dim);
+  --pf-v5-c-nav__link--m-current--BackgroundColor: transparent;
+  --pf-v5-c-nav__link--hover--BackgroundColor: transparent;
+}
+
+.pf-v5-c-nav__link.pf-m-current {
+  text-shadow: 0 0 var(--x29a-shadow) var(--x29a-text);
+}
+
+/* PatternFly draws each separator as the link's ::before and hides it while
+   the link is hovered or current, under a background this theme leaves
+   transparent. Draw separators on the top-level items so they always stay. */
+.pf-v5-c-nav__link::before {
+  display: none;
+}
+
+.pf-v5-c-nav > .pf-v5-c-nav__list > .pf-v5-c-nav__item {
+  border-bottom: 1px solid rgb(133 153 0 / 35%);
+}
+
+/* Hover: the main page's link hover (lighter, glowing) and a dim version of
+   the current item's left marker. */
+.pf-v5-c-nav__link {
+  transition: color var(--x29a-anim-time), text-shadow var(--x29a-anim-time);
+}
+
+.pf-v5-c-nav__link:is(:hover, :focus-visible):not(.pf-m-current) {
+  color: var(--x29a-text-light);
+  text-shadow: 0 0 var(--x29a-shadow) var(--x29a-text);
+}
+
+.pf-v5-c-nav__link:is(:hover, :focus-visible):not(.pf-m-current)::after {
+  border-left: 4px solid var(--x29a-text-dim);
+}
+
+/* ---- Text: headings in the main text colour, the rest a step dimmer ---- */
+
+.pf-v5-c-title,
+.pf-v5-c-form__label,
+.pf-v5-c-form__label-text,
+.pf-v5-c-content,
+.pf-v5-c-description-list__text,
+.pf-v5-c-data-list,
+.pf-v5-c-expandable-section__toggle-text,
+.pf-v5-c-jump-links__label {
+  color: var(--x29a-text);
+}
+
+.pf-v5-c-form__label-required {
+  color: var(--x29a-red);
+}
+
+/* ---- Form controls: boxed and glowing on focus, as on the login page ---- */
+
+.pf-v5-c-form-control {
+  --pf-v5-c-form-control--BackgroundColor: var(--x29a-background);
+  --pf-v5-c-form-control--Color: var(--x29a-text);
+  --pf-v5-c-form-control--before--BorderStyle: solid;
+  --pf-v5-c-form-control--before--BorderTopColor: var(--x29a-text-dim);
+  --pf-v5-c-form-control--before--BorderRightColor: var(--x29a-text-dim);
+  --pf-v5-c-form-control--before--BorderBottomColor: var(--x29a-text-dim);
+  --pf-v5-c-form-control--before--BorderLeftColor: var(--x29a-text-dim);
+  --pf-v5-c-form-control--before--BorderTopWidth: 2px;
+  --pf-v5-c-form-control--before--BorderRightWidth: 2px;
+  --pf-v5-c-form-control--before--BorderBottomWidth: 2px;
+  --pf-v5-c-form-control--before--BorderLeftWidth: 2px;
+  --pf-v5-c-form-control--after--BorderStyle: none;
+  --pf-v5-c-form-control--m-readonly--BackgroundColor: #10120a;
+
+  border-radius: var(--pf-v5-global--BorderRadius--sm);
+  transition: box-shadow var(--x29a-anim-time);
+}
+
+.pf-v5-c-form-control::before,
+.pf-v5-c-form-control::after {
+  border-radius: inherit;
+}
+
+.pf-v5-c-form-control:focus-within {
+  --pf-v5-c-form-control--before--BorderTopColor: var(--x29a-text);
+  --pf-v5-c-form-control--before--BorderRightColor: var(--x29a-text);
+  --pf-v5-c-form-control--before--BorderBottomColor: var(--x29a-text);
+  --pf-v5-c-form-control--before--BorderLeftColor: var(--x29a-text);
+
+  box-shadow: 0 0 var(--x29a-shadow) var(--x29a-text);
+}
+
+.pf-v5-c-form-control input:focus,
+.pf-v5-c-form-control select:focus,
+.pf-v5-c-form-control textarea:focus {
+  outline: none;
+}
+
+/* ---- Buttons: outlined; hover lightens and grows ---- */
+
+.pf-v5-c-button.pf-m-primary,
+.pf-v5-c-button.pf-m-secondary,
+.pf-v5-c-button.pf-m-tertiary,
+.pf-v5-c-button.pf-m-danger {
+  --pf-v5-c-button--after--BorderWidth: 0;
+  --pf-v5-c-button--hover--after--BorderWidth: 0;
+  --pf-v5-c-button--active--after--BorderWidth: 0;
+  --pf-v5-c-button--focus--after--BorderWidth: 0;
+
+  background: transparent;
+  border: 2px solid var(--x29a-text-dim);
+  border-radius: var(--x29a-radius);
+  color: var(--x29a-text);
+  transition:
+    transform var(--x29a-anim-time),
+    color var(--x29a-anim-time),
+    border-color var(--x29a-anim-time);
+}
+
+.pf-v5-c-button.pf-m-primary {
+  border: var(--x29a-border) solid var(--x29a-text);
+  box-shadow: 0 0 var(--x29a-shadow) var(--x29a-text);
+}
+
+.pf-v5-c-button.pf-m-danger {
+  border-color: var(--x29a-red);
+  color: var(--x29a-red);
+}
+
+.pf-v5-c-button.pf-m-primary:hover,
+.pf-v5-c-button.pf-m-secondary:hover,
+.pf-v5-c-button.pf-m-tertiary:hover {
+  border-color: var(--x29a-text-light);
+  color: var(--x29a-text-light);
+  transform: scale(1.0333);
+}
+
+.pf-v5-c-button.pf-m-danger:hover {
+  transform: scale(1.0333);
+}
+
+.pf-v5-c-button.pf-m-primary:disabled,
+.pf-v5-c-button.pf-m-primary.pf-m-disabled,
+.pf-v5-c-button.pf-m-primary.pf-m-aria-disabled {
+  border-color: var(--pf-v5-global--disabled-color--200);
+  box-shadow: none;
+  color: var(--pf-v5-global--disabled-color--100);
+  transform: none;
+}
+
+/* ---- Lists, cards and alerts ---- */
+
+.pf-v5-c-data-list,
+.pf-v5-c-card {
+  --pf-v5-c-data-list--BackgroundColor: transparent;
+  --pf-v5-c-data-list__item--BackgroundColor: transparent;
+  --pf-v5-c-card--BackgroundColor: transparent;
+}
+
+.pf-v5-c-card {
+  border: 2px solid var(--x29a-text-dim);
+  border-radius: var(--x29a-radius);
+}
+
+.pf-v5-c-alert {
+  --pf-v5-c-alert--BorderTopWidth: 0;
+
+  background: var(--x29a-background);
+  border: 2px solid currentcolor;
+  border-radius: var(--pf-v5-global--BorderRadius--sm);
+  color: var(--x29a-text);
+}
+
+.pf-v5-c-alert.pf-m-danger {
+  color: var(--x29a-red);
+}
+
+.pf-v5-c-alert.pf-m-warning {
+  color: var(--x29a-yellow);
+}
+
+.pf-v5-c-alert.pf-m-info {
+  color: var(--x29a-blue);
+}
+
+.pf-v5-c-alert .pf-v5-c-alert__icon,
+.pf-v5-c-alert .pf-v5-c-alert__title {
+  color: inherit;
+}

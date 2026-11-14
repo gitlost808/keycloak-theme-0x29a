@@ -1,0 +1,619 @@
+/*
+ * 0x29a login theme. Values and animations follow dummypage's
+ * src/common/styles (variables.scss, animations.scss, styles.scss), so a
+ * change to the main page's look should be mirrored here.
+ */
+
+@font-face {
+  /* Kode Mono, SIL Open Font License 1.1; see themes/0x29a/OFL.txt. */
+  font-family: "Kode Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/KodeMono-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+
+  /* dummypage variables.scss */
+  --x29a-font: "Kode Mono", monospace;
+  --x29a-text: #859900;
+  --x29a-text-light: #9fb31a; /* color.scale(#859900, $lightness: 16%) */
+  --x29a-text-lighter: #c5dc3c; /* ... $lightness: 48% (the :active state) */
+  --x29a-text-dim: rgb(133 153 0 / 75%);
+  --x29a-background: #060606;
+  --x29a-selection: #666;
+  --x29a-blur: 5px;
+  --x29a-shadow: 5px;
+  --x29a-anim-time: 0.666s;
+  --x29a-radius: 15px;
+  --x29a-border: 3px;
+
+  /* Solarized accents; #859900 is Solarized green. */
+  --x29a-red: #dc322f;
+  --x29a-yellow: #b58900;
+  --x29a-blue: #268bd2;
+
+  /* PatternFly 5 global tokens. :root outranks PatternFly's
+     :where(.pf-v5-theme-dark), so these hold in its dark theme. */
+  --pf-v5-global--FontFamily--text: var(--x29a-font);
+  --pf-v5-global--FontFamily--text--vf: var(--x29a-font);
+  --pf-v5-global--FontFamily--heading: var(--x29a-font);
+  --pf-v5-global--FontFamily--heading--vf: var(--x29a-font);
+  --pf-v5-global--FontFamily--monospace: var(--x29a-font);
+  --pf-v5-global--FontFamily--monospace--vf: var(--x29a-font);
+  --pf-v5-global--FontWeight--bold: 400;
+
+  --pf-v5-global--BackgroundColor--100: var(--x29a-background);
+  --pf-v5-global--BackgroundColor--150: var(--x29a-background);
+  --pf-v5-global--BackgroundColor--200: var(--x29a-background);
+  --pf-v5-global--BackgroundColor--300: #10120a;
+  --pf-v5-global--BackgroundColor--400: #10120a;
+  --pf-v5-global--BackgroundColor--dark-100: var(--x29a-background);
+  --pf-v5-global--BackgroundColor--light-100: var(--x29a-background);
+
+  --pf-v5-global--Color--100: var(--x29a-text);
+  --pf-v5-global--Color--200: var(--x29a-text-dim);
+  --pf-v5-global--Color--dark-100: var(--x29a-text);
+  --pf-v5-global--Color--dark-200: var(--x29a-text-dim);
+  --pf-v5-global--Color--light-100: var(--x29a-text);
+  --pf-v5-global--Color--light-200: var(--x29a-text-dim);
+  --pf-v5-global--icon--Color--light: var(--x29a-text-dim);
+  --pf-v5-global--icon--Color--dark: var(--x29a-text);
+
+  --pf-v5-global--BorderColor--100: var(--x29a-text-dim);
+  --pf-v5-global--BorderColor--200: var(--x29a-text-dim);
+  --pf-v5-global--BorderColor--300: var(--x29a-text-dim);
+  --pf-v5-global--BorderColor--400: var(--x29a-text);
+
+  --pf-v5-global--primary-color--100: var(--x29a-text);
+  --pf-v5-global--primary-color--200: var(--x29a-text-light);
+  --pf-v5-global--primary-color--dark-100: var(--x29a-text);
+  --pf-v5-global--primary-color--light-100: var(--x29a-text);
+  --pf-v5-global--primary-color--300: var(--x29a-text);
+  --pf-v5-global--active-color--100: var(--x29a-text);
+  --pf-v5-global--active-color--300: var(--x29a-text);
+  --pf-v5-global--active-color--400: var(--x29a-text);
+  --pf-v5-global--link--Color: var(--x29a-text);
+  --pf-v5-global--link--Color--hover: var(--x29a-text-light);
+  --pf-v5-global--link--Color--visited: var(--x29a-text);
+  --pf-v5-global--link--Color--dark: var(--x29a-text);
+  --pf-v5-global--link--Color--dark--hover: var(--x29a-text-light);
+  --pf-v5-global--link--Color--light: var(--x29a-text);
+  --pf-v5-global--link--Color--light--hover: var(--x29a-text-light);
+  --pf-v5-global--link--TextDecoration--hover: none;
+
+  --pf-v5-global--success-color--100: var(--x29a-text);
+  --pf-v5-global--success-color--200: var(--x29a-text-light);
+  --pf-v5-global--danger-color--100: var(--x29a-red);
+  --pf-v5-global--danger-color--200: var(--x29a-red);
+  --pf-v5-global--warning-color--100: var(--x29a-yellow);
+  --pf-v5-global--warning-color--200: var(--x29a-yellow);
+  --pf-v5-global--info-color--100: var(--x29a-blue);
+  --pf-v5-global--info-color--200: var(--x29a-blue);
+  --pf-v5-global--disabled-color--100: rgb(133 153 0 / 45%);
+  --pf-v5-global--disabled-color--200: rgb(133 153 0 / 20%);
+
+  --pf-v5-global--BorderRadius--sm: 8px;
+}
+
+::selection {
+  background: var(--x29a-selection);
+}
+
+html.login-pf,
+.login-pf body {
+  background: var(--x29a-background);
+}
+
+.login-pf body {
+  color: var(--x29a-text);
+  font-family: var(--x29a-font);
+  min-height: 100dvh;
+}
+
+/* ---- Layout: heading above one glowing box, centred like the main page ---- */
+
+.pf-v5-c-login {
+  align-items: center;
+  min-height: 100dvh;
+  padding: clamp(1rem, 6vh, 4rem) 0;
+}
+
+.pf-v5-c-login__container {
+  box-sizing: border-box;
+  grid-template-columns: min(34rem, 100%);
+  justify-content: center;
+  padding-inline: 1rem;
+}
+
+#kc-header {
+  padding-inline: 0;
+}
+
+#kc-header-wrapper {
+  color: var(--x29a-text) !important;
+  font-size: clamp(2.25rem, 1.5rem + 4vw, 4rem);
+  letter-spacing: 0;
+  line-height: 1.1;
+  margin-bottom: 0.25em;
+  text-align: center;
+  text-shadow: 0 0 var(--x29a-shadow) var(--x29a-text);
+  text-transform: none;
+  animation: x29a-fade-in-unblur var(--x29a-anim-time) backwards;
+}
+
+.pf-v5-c-login__main {
+  --pf-v5-c-login__main--BackgroundColor: transparent;
+  --pf-v5-c-login__main--BoxShadow: 0 0 var(--x29a-shadow) var(--x29a-text);
+
+  border: var(--x29a-border) solid var(--x29a-text);
+  border-radius: var(--x29a-radius);
+  box-sizing: border-box;
+  /* dummypage's lineglow: the box starts collapsed to its two borders, a
+     straight line that is drawn left to right, then grows to its height.
+     js/0x29a.js measures that height into --x29a-box-height. Filling only
+     backwards drops the height cap and clip-path once the animation ends, so
+     neither can cut off a longer form or the restart-login tooltip. */
+  animation: x29a-lineglow calc(var(--x29a-anim-time) * 1.5) var(--x29a-anim-time) backwards;
+}
+
+.pf-v5-c-login__main-header {
+  border-top: 0;
+  padding-top: 1.5rem;
+}
+
+.pf-v5-c-login__main-header,
+.pf-v5-c-login__main-body,
+.pf-v5-c-login__main-footer {
+  animation: x29a-fade-in-unblur var(--x29a-anim-time) calc(var(--x29a-anim-time) * 2.25) backwards;
+}
+
+#kc-page-title {
+  color: var(--x29a-text);
+  font-size: clamp(1.25rem, 1rem + 1.2vw, 1.75rem);
+  text-transform: lowercase;
+}
+
+#kc-page-title::before {
+  content: "./";
+  opacity: 0.75;
+}
+
+/* js/0x29a.js types the "./" as part of the title instead. */
+.x29a-js #kc-page-title::before {
+  content: none;
+}
+
+#kc-page-title .x29a-typed > .x29a-prefix.show {
+  opacity: 0.75;
+}
+
+/* Lowercase the interface, as the main page does, but not what users type. */
+.pf-v5-c-form__label-text,
+.pf-v5-c-check__label,
+.pf-v5-c-button,
+.pf-v5-c-login__main-footer-band,
+#kc-form-options,
+.kc-feedback-text,
+.pf-v5-c-helper-text__item-text {
+  text-transform: lowercase;
+}
+
+/* ---- Form controls ---- */
+
+.pf-v5-c-form-control {
+  --pf-v5-c-form-control--BackgroundColor: var(--x29a-background);
+  --pf-v5-c-form-control--Color: var(--x29a-text);
+  --pf-v5-c-form-control--before--BorderStyle: solid;
+  --pf-v5-c-form-control--before--BorderTopColor: var(--x29a-text-dim);
+  --pf-v5-c-form-control--before--BorderRightColor: var(--x29a-text-dim);
+  --pf-v5-c-form-control--before--BorderBottomColor: var(--x29a-text-dim);
+  --pf-v5-c-form-control--before--BorderLeftColor: var(--x29a-text-dim);
+  --pf-v5-c-form-control--before--BorderTopWidth: 2px;
+  --pf-v5-c-form-control--before--BorderRightWidth: 2px;
+  --pf-v5-c-form-control--before--BorderBottomWidth: 2px;
+  --pf-v5-c-form-control--before--BorderLeftWidth: 2px;
+  --pf-v5-c-form-control--after--BorderStyle: none;
+
+  border-radius: var(--pf-v5-global--BorderRadius--sm);
+  transition: box-shadow var(--x29a-anim-time);
+}
+
+.pf-v5-c-form-control::before,
+.pf-v5-c-form-control::after {
+  border-radius: inherit;
+}
+
+.pf-v5-c-form-control:hover {
+  --pf-v5-c-form-control--before--BorderTopColor: var(--x29a-text);
+  --pf-v5-c-form-control--before--BorderRightColor: var(--x29a-text);
+  --pf-v5-c-form-control--before--BorderBottomColor: var(--x29a-text);
+  --pf-v5-c-form-control--before--BorderLeftColor: var(--x29a-text);
+}
+
+.pf-v5-c-form-control:focus-within {
+  --pf-v5-c-form-control--before--BorderTopColor: var(--x29a-text);
+  --pf-v5-c-form-control--before--BorderRightColor: var(--x29a-text);
+  --pf-v5-c-form-control--before--BorderBottomColor: var(--x29a-text);
+  --pf-v5-c-form-control--before--BorderLeftColor: var(--x29a-text);
+
+  box-shadow: 0 0 var(--x29a-shadow) var(--x29a-text);
+}
+
+.pf-v5-c-form-control.pf-m-error {
+  --pf-v5-c-form-control--before--BorderTopColor: var(--x29a-red);
+  --pf-v5-c-form-control--before--BorderRightColor: var(--x29a-red);
+  --pf-v5-c-form-control--before--BorderBottomColor: var(--x29a-red);
+  --pf-v5-c-form-control--before--BorderLeftColor: var(--x29a-red);
+}
+
+.pf-v5-c-form-control.pf-m-readonly {
+  --pf-v5-c-form-control--BackgroundColor: #10120a;
+}
+
+.pf-v5-c-form-control input,
+.pf-v5-c-form-control select,
+.pf-v5-c-form-control textarea {
+  caret-color: var(--x29a-text);
+  font-family: var(--x29a-font);
+}
+
+/* The control's glow (:focus-within above) marks focus instead. */
+.pf-v5-c-form-control input:focus,
+.pf-v5-c-form-control select:focus,
+.pf-v5-c-form-control textarea:focus {
+  outline: none;
+}
+
+/* Chrome's autofill would otherwise paint the field pale yellow. */
+.pf-v5-c-form-control input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 100px var(--x29a-background) inset;
+  -webkit-text-fill-color: var(--x29a-text);
+}
+
+.pf-v5-c-check__input {
+  accent-color: var(--x29a-text);
+}
+
+/* ---- Buttons: outlined like the main box; hover lightens and grows ---- */
+
+.pf-v5-c-button.pf-m-primary,
+.pf-v5-c-button.pf-m-secondary,
+.pf-v5-c-button.pf-m-tertiary {
+  --pf-v5-c-button--BorderRadius: var(--x29a-radius);
+  --pf-v5-c-button--after--BorderRadius: var(--x29a-radius);
+  --pf-v5-c-button--after--BorderWidth: 0;
+  --pf-v5-c-button--hover--after--BorderWidth: 0;
+  --pf-v5-c-button--active--after--BorderWidth: 0;
+  --pf-v5-c-button--focus--after--BorderWidth: 0;
+
+  background: transparent;
+  border: var(--x29a-border) solid var(--x29a-text);
+  border-radius: var(--x29a-radius);
+  box-shadow: 0 0 var(--x29a-shadow) var(--x29a-text);
+  color: var(--x29a-text);
+  transition:
+    transform var(--x29a-anim-time),
+    color var(--x29a-anim-time),
+    border-color var(--x29a-anim-time),
+    box-shadow var(--x29a-anim-time);
+}
+
+.pf-v5-c-button.pf-m-secondary,
+.pf-v5-c-button.pf-m-tertiary {
+  border-color: var(--x29a-text-dim);
+  box-shadow: none;
+}
+
+.pf-v5-c-button.pf-m-primary:hover,
+.pf-v5-c-button.pf-m-secondary:hover,
+.pf-v5-c-button.pf-m-tertiary:hover {
+  border-color: var(--x29a-text-light);
+  color: var(--x29a-text-light);
+  transform: scale(1.0333);
+}
+
+.pf-v5-c-button.pf-m-primary:active,
+.pf-v5-c-button.pf-m-secondary:active,
+.pf-v5-c-button.pf-m-tertiary:active {
+  border-color: var(--x29a-text-lighter);
+  color: var(--x29a-text-lighter);
+  transform: scale(1.0666);
+}
+
+.pf-v5-c-button.pf-m-primary:focus-visible,
+.pf-v5-c-button.pf-m-secondary:focus-visible,
+.pf-v5-c-button.pf-m-tertiary:focus-visible {
+  outline: 2px solid var(--x29a-text);
+  outline-offset: 3px;
+}
+
+.pf-v5-c-button.pf-m-primary:disabled,
+.pf-v5-c-button.pf-m-primary.pf-m-disabled {
+  border-color: var(--pf-v5-global--disabled-color--200);
+  box-shadow: none;
+  color: var(--pf-v5-global--disabled-color--100);
+  transform: none;
+}
+
+.pf-v5-c-button.pf-m-link,
+.pf-v5-c-button.pf-m-control,
+.pf-v5-c-button.pf-m-plain {
+  --pf-v5-c-button--m-link--Color: var(--x29a-text);
+  --pf-v5-c-button--m-link--hover--Color: var(--x29a-text-light);
+  --pf-v5-c-button--m-control--Color: var(--x29a-text);
+  --pf-v5-c-button--m-control--BackgroundColor: transparent;
+  --pf-v5-c-button--m-control--hover--BackgroundColor: transparent;
+  --pf-v5-c-button--m-control--after--BorderTopColor: transparent;
+  --pf-v5-c-button--m-control--after--BorderRightColor: transparent;
+  --pf-v5-c-button--m-control--after--BorderBottomColor: transparent;
+  --pf-v5-c-button--m-control--after--BorderLeftColor: transparent;
+  --pf-v5-c-button--m-control--hover--after--BorderBottomColor: transparent;
+  --pf-v5-c-button--m-plain--Color: var(--x29a-text);
+}
+
+.pf-v5-c-button.pf-m-control:hover,
+.pf-v5-c-button.pf-m-plain:hover {
+  color: var(--x29a-text-light);
+}
+
+/* ---- Links ---- */
+
+.login-pf a:not(.pf-v5-c-button) {
+  color: var(--x29a-text);
+  text-decoration: none;
+  transition: color var(--x29a-anim-time), text-shadow var(--x29a-anim-time);
+}
+
+.login-pf a:not(.pf-v5-c-button):hover,
+.login-pf a:not(.pf-v5-c-button):focus-visible {
+  color: var(--x29a-text-light);
+  text-shadow: 0 0 var(--x29a-shadow) var(--x29a-text);
+}
+
+/* ---- Alerts and helper text ---- */
+
+.pf-v5-c-alert {
+  --pf-v5-c-alert--BorderTopWidth: 0;
+
+  background: transparent;
+  border: 2px solid currentcolor;
+  border-radius: var(--pf-v5-global--BorderRadius--sm);
+  color: var(--x29a-text);
+}
+
+.pf-v5-c-alert.pf-m-danger {
+  color: var(--x29a-red);
+}
+
+.pf-v5-c-alert.pf-m-warning {
+  color: var(--x29a-yellow);
+}
+
+.pf-v5-c-alert.pf-m-info {
+  color: var(--x29a-blue);
+}
+
+.pf-v5-c-alert .pf-v5-c-alert__icon,
+.pf-v5-c-alert .pf-v5-c-alert__title {
+  color: inherit;
+}
+
+.pf-v5-c-helper-text__item.pf-m-error,
+.pf-v5-c-helper-text__item-text.pf-m-error {
+  color: var(--x29a-red);
+}
+
+.kc-login-tooltip .kc-tooltip-text {
+  background-color: var(--x29a-background);
+  border: 1px solid var(--x29a-text);
+  color: var(--x29a-text);
+}
+
+.kc-login-tooltip .kc-tooltip-text::after {
+  border-color: transparent var(--x29a-text) transparent transparent;
+}
+
+/* Lists such as select-authenticator and the OTP device picker. */
+.pf-v5-c-data-list,
+.pf-v5-c-tile {
+  --pf-v5-c-data-list--BackgroundColor: transparent;
+  --pf-v5-c-data-list__item--BackgroundColor: transparent;
+  --pf-v5-c-tile--BackgroundColor: transparent;
+}
+
+.pf-v5-c-data-list__item {
+  border: 2px solid var(--x29a-text-dim);
+  border-radius: var(--pf-v5-global--BorderRadius--sm);
+  margin-bottom: 0.5rem;
+}
+
+.pf-v5-c-data-list__item:hover {
+  border-color: var(--x29a-text);
+  box-shadow: 0 0 var(--x29a-shadow) var(--x29a-text);
+}
+
+.kc-login-divider {
+  color: var(--x29a-text-dim);
+}
+
+hr,
+.kc-login-divider::before,
+.kc-login-divider::after {
+  border-color: var(--x29a-text-dim);
+}
+
+/* QR codes have to stay dark-on-light to scan. */
+#kc-totp-secret-qr-code,
+.kc-qr-code img {
+  background: #fff;
+  border-radius: var(--pf-v5-global--BorderRadius--sm);
+  padding: 8px;
+}
+
+/* ---- Footer: the main page's icon button back home ---- */
+
+.kc-0x29a-home {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1rem;
+}
+
+.kc-0x29a-icon-button {
+  font-size: 1.5rem;
+  transition: transform var(--x29a-anim-time), color var(--x29a-anim-time);
+}
+
+.kc-0x29a-icon-button:hover {
+  transform: scale(1.0333);
+}
+
+.kc-0x29a-icon-button:active {
+  color: var(--x29a-text-lighter) !important;
+  transform: scale(1.0666);
+}
+
+.kc-0x29a-icon-button:focus-visible {
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--x29a-text);
+  outline: none;
+}
+
+/* ---- Typed text (js/0x29a.js) ---- */
+
+.x29a-typed > span {
+  opacity: 0;
+}
+
+.x29a-typed > span.show {
+  opacity: 1;
+}
+
+.x29a-typed > span.glow {
+  animation: x29a-glow var(--x29a-anim-time) forwards;
+}
+
+/* ---- The box's rows (js/0x29a.js) ----
+   With the script running, it reveals the box's content row by row after
+   typing the title, instead of the plain fade above. */
+
+.x29a-js .pf-v5-c-login__main-header,
+.x29a-js .pf-v5-c-login__main-body,
+.x29a-js .pf-v5-c-login__main-footer {
+  animation: none;
+}
+
+.x29a-js .x29a-row:not(.x29a-revealed) {
+  opacity: 0;
+}
+
+.x29a-js .x29a-row.x29a-revealed {
+  animation: x29a-fade-in-unblur var(--x29a-anim-time);
+}
+
+.x29a-skipped .x29a-row:not(.x29a-revealed) {
+  opacity: 1;
+}
+
+.x29a-skipped .x29a-typed > span {
+  opacity: 1;
+}
+
+/* ---- Click ripple (js/0x29a.js) ---- */
+
+.x29a-ripple {
+  animation: x29a-ripple var(--x29a-anim-time) forwards;
+  background-color: var(--x29a-text);
+  border-radius: 50%;
+  filter: blur(var(--x29a-blur));
+  height: 200vw;
+  opacity: 0.8;
+  pointer-events: none;
+  position: fixed;
+  width: 200vw;
+  z-index: 1000;
+}
+
+/* ---- dummypage animations.scss ---- */
+
+@keyframes x29a-fade-in-unblur {
+  0% {
+    filter: blur(var(--x29a-blur));
+    opacity: 0;
+  }
+
+  100% {
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+@keyframes x29a-glow {
+  0% {
+    color: var(--x29a-text-light);
+    text-shadow: 0 0 calc(var(--x29a-shadow) * 2) var(--x29a-text);
+  }
+
+  100% {
+    color: var(--x29a-text);
+    text-shadow: 0 0 var(--x29a-shadow) var(--x29a-text);
+  }
+}
+
+@keyframes x29a-lineglow {
+  0% {
+    clip-path: inset(-8px 100% -8px -8px);
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+
+  40% {
+    clip-path: inset(-8px -8px -8px -8px);
+    max-height: 0;
+    opacity: 1;
+    overflow: hidden;
+  }
+
+  55% {
+    clip-path: inset(-8px -8px -8px -8px);
+    max-height: 0;
+    opacity: 1;
+    overflow: hidden;
+  }
+
+  100% {
+    clip-path: inset(-8px -8px -8px -8px);
+    max-height: var(--x29a-box-height, 100dvh);
+    opacity: 1;
+    overflow: hidden;
+  }
+}
+
+@keyframes x29a-ripple {
+  0% {
+    opacity: 0.8;
+    transform: scale(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-delay: 0s !important;
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+
+  .x29a-ripple {
+    display: none;
+  }
+}
